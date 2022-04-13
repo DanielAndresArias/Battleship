@@ -5,7 +5,7 @@ import Jugador from "./Jugador.js";
 
 /* Pruebas sobre la clase Barco */
 
-const barco1 = new Barco ("Acorazado");
+const barco1 = new Barco (1);
 
 console.log (barco1);
 
