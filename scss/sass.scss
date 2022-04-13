@@ -1,0 +1,70 @@
+$font-name-game: 'Press Start 2P', cursive;
+$color-bg-home: #0a0a03;
+$color-font-ligth-yellow: #ffc400;
+$color-font-white: #fafafa;
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.home{
+    background-color: $color-bg-home;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    .start{
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        justify-content: space-between;
+        width: 500px;
+        height: 150px;
+        h1{
+            opacity: 0;
+            animation-duration: 3.5s;
+            animation-name: aparecer;
+            animation-iteration-count: 1;
+            animation-delay: 0.2s;
+            animation-fill-mode: forwards;
+            font-size: 80px;
+            color: $color-font-ligth-yellow;
+        }
+        span{
+            opacity: 0;
+            font-size: 20px;
+            color: $color-font-white;
+            animation-duration: 0.5s;
+            animation-name: aparecer;
+            animation-delay: 2s;
+            animation-fill-mode: forwards;
+            span{
+                opacity: 0;
+                font-size: 20px;
+                color: $color-font-white;
+                animation-duration: 1s;
+                animation-name: aparecer;
+                animation-iteration-count: infinite;
+                animation-delay: 2.5s;
+                animation-fill-mode: backwards;
+            }
+        }
+    }
+}
+
+.start{
+    font-family: $font-name-game;   
+}
+
+@keyframes aparecer{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
