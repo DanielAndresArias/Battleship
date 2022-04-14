@@ -23,7 +23,7 @@
       animation-duration: 3.5s;
       animation-name: aparecer;
       animation-iteration-count: 1;
-      animation-delay: 0.2s;
+      animation-delay: 0.5s;
       animation-fill-mode: forwards;
       font-size: 80px;
       color: #ffc400; }
@@ -33,23 +33,29 @@
       color: #fafafa;
       animation-duration: 0.5s;
       animation-name: aparecer;
-      animation-delay: 2s;
+      animation-delay: 3s;
       animation-fill-mode: forwards; }
       .home .start span span {
-        opacity: 0;
         font-size: 20px;
         color: #fafafa;
-        animation-duration: 1s;
-        animation-name: aparecer;
+        animation-duration: 1.5s;
+        animation-name: parpadeo;
         animation-iteration-count: infinite;
-        animation-delay: 2.5s;
-        animation-fill-mode: backwards; }
+        animation-delay: 3.5s; }
 
 .start {
   font-family: "Press Start 2P", cursive; }
 
 @keyframes aparecer {
   0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes parpadeo {
+  0% {
+    opacity: 1; }
+  50% {
     opacity: 0; }
   100% {
     opacity: 1; } }

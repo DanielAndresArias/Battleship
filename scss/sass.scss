@@ -29,7 +29,7 @@ $color-font-white: #fafafa;
             animation-duration: 3.5s;
             animation-name: aparecer;
             animation-iteration-count: 1;
-            animation-delay: 0.2s;
+            animation-delay: 0.5s;
             animation-fill-mode: forwards;
             font-size: 80px;
             color: $color-font-ligth-yellow;
@@ -40,17 +40,15 @@ $color-font-white: #fafafa;
             color: $color-font-white;
             animation-duration: 0.5s;
             animation-name: aparecer;
-            animation-delay: 2s;
+            animation-delay: 3s;
             animation-fill-mode: forwards;
             span{
-                opacity: 0;
                 font-size: 20px;
                 color: $color-font-white;
-                animation-duration: 1s;
-                animation-name: aparecer;
+                animation-duration: 1.5s;
+                animation-name: parpadeo;
                 animation-iteration-count: infinite;
-                animation-delay: 2.5s;
-                animation-fill-mode: backwards;
+                animation-delay: 3.5s;
             }
         }
     }
@@ -62,6 +60,18 @@ $color-font-white: #fafafa;
 
 @keyframes aparecer{
     0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes parpadeo{
+    0%{
+        opacity: 1;
+    }
+    50%{
         opacity: 0;
     }
     100%{
