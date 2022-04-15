@@ -36,17 +36,90 @@ while(!finalizado){
     jugador1.tableroEnemigo.mostrarMapa();
 } */
 
-let start = document.body.querySelector(".start");
-start.removeChild(document.body.querySelector(".start span"));
-let ol = document.createElement("ol");
-start.appendChild(ol);
+let b = document.querySelector("body");
+b.addEventListener("keydown", pressAnykey);
 
-let options = ["Single Player", "Multiplayer", "Options"];
+let c = 0;
 
-for (const option of options){
-    let li = document.createElement("li");
-    li.innerHTML = option;
-    ol.appendChild(li);
+
+function pressAnykey(e){
+    e.target.removeEventListener (e.type, pressAnykey);
+    let start = document.body.querySelector(".start");
+    start.removeChild(start.querySelector(".start span"));
+    let ol = document.createElement("ol");
+    ol.id = "menu";
+    start.appendChild(ol);
+
+    let options = [">Single Player<", "Multiplayer", "Options"];
+
+    for (const option of options){
+        let li = document.createElement("li");
+        li.innerHTML = option;
+        ol.appendChild(li);
+    }
+
+    start.className = "contenedor__menu";
+    b.addEventListener("keydown", cambiarEleccion);
 }
 
-start.className = ".menu";
+
+
+function cambiarEleccion(e){
+    
+    let aux = "";
+    let aux2 = "";
+    let menu = document.body.querySelector("#menu");
+    let lis = document.body.getElementsByTagName("li");
+    let options = ["Single Player", ">Multiplayer<", ">Options<"];
+    console.log(lis);
+    console.log(e.keyCode);
+    if (e.keyCode == 38){
+        if (c === 0){
+            aux = lis[c].innerText;
+            lis[c].innerText = options[c];
+            options[c] = aux; 
+
+            c = 2;
+
+            aux = lis[c].innerText;
+            lis[c].innerText = options[c];
+            options[c] = aux; 
+        }
+        else{
+            aux = lis[c].innerText;
+            lis[c].innerText = options[c];
+            options[c] = aux; 
+
+            c--;
+
+            aux = lis[c].innerText;
+            lis[c].innerText = options[c];
+            options[c] = aux; 
+        }
+    }
+
+    if (e.keyCode == 40){
+        if (c === 2){
+            aux = lis[c].innerText;
+            lis[c].innerText = options[c];
+            options[c] = aux; 
+
+            c = 0;
+
+            aux = lis[c].innerText;
+            lis[c].innerText = options[c];
+            options[c] = aux; 
+        }
+        else{
+            aux = lis[c].innerText;
+            lis[c].innerText = options[c];
+            options[c] = aux; 
+
+            c++;
+
+            aux = lis[c].innerText;
+            lis[c].innerText = options[c];
+            options[c] = aux; 
+        }
+    }
+}

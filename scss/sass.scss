@@ -56,15 +56,22 @@ $color-font-white: #fafafa;
     }
 }
 
-.menu{
+.contenedor__menu{
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
+    align-self: flex-start;
     justify-content: space-around;
     height: 70vh;
     h1{
-        font-size: 40px;
+        font-size: 60px;
         color: $color-font-yellow;
+    }
+    ol{
+        list-style: none;
+        color: $color-font-white;
+        line-height: 3;
+        text-align: center;
     }
 }
 
