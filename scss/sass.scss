@@ -56,7 +56,7 @@ $color-font-white: #fafafa;
     }
 }
 
-.contenedor__menu{
+.menu{
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
@@ -72,6 +72,15 @@ $color-font-white: #fafafa;
         color: $color-font-white;
         line-height: 3;
         text-align: center;
+    }
+}
+
+.select{
+    &::before{
+        content: ">";
+    }
+    &::after{
+        content: "<";
     }
 }
 

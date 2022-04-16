@@ -45,21 +45,27 @@
       animation-iteration-count: infinite;
       animation-delay: 3.5s; }
 
-.contenedor__menu {
+.menu {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   align-self: flex-start;
   justify-content: space-around;
   height: 70vh; }
-  .contenedor__menu h1 {
+  .menu h1 {
     font-size: 60px;
     color: #ffc400; }
-  .contenedor__menu ol {
+  .menu ol {
     list-style: none;
     color: #fafafa;
     line-height: 3;
     text-align: center; }
+
+.select::before {
+  content: ">"; }
+
+.select::after {
+  content: "<"; }
 
 @keyframes aparecer {
   0% {

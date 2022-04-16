@@ -38,9 +38,7 @@ while(!finalizado){
 
 let b = document.querySelector("body");
 b.addEventListener("keydown", pressAnykey);
-
-let c = 0;
-
+let pos = [0, 1, 2];
 
 function pressAnykey(e){
     e.target.removeEventListener (e.type, pressAnykey);
@@ -50,7 +48,7 @@ function pressAnykey(e){
     ol.id = "menu";
     start.appendChild(ol);
 
-    let options = [">Single Player<", "Multiplayer", "Options"];
+    let options = ["Single Player", "Multiplayer", "Options"];
 
     for (const option of options){
         let li = document.createElement("li");
@@ -58,68 +56,26 @@ function pressAnykey(e){
         ol.appendChild(li);
     }
 
-    start.className = "contenedor__menu";
+    start.className = "menu";
+    ol.firstChild.className = "select";
+
     b.addEventListener("keydown", cambiarEleccion);
 }
 
-
-
 function cambiarEleccion(e){
-    
-    let aux = "";
-    let aux2 = "";
-    let menu = document.body.querySelector("#menu");
-    let lis = document.body.getElementsByTagName("li");
-    let options = ["Single Player", ">Multiplayer<", ">Options<"];
-    console.log(lis);
-    console.log(e.keyCode);
-    if (e.keyCode == 38){
-        if (c === 0){
-            aux = lis[c].innerText;
-            lis[c].innerText = options[c];
-            options[c] = aux; 
+    const lis = document.body.getElementsByTagName("li");
+    let audio = new Audio("assets/sounds/pop.mp3");
 
-            c = 2;
-
-            aux = lis[c].innerText;
-            lis[c].innerText = options[c];
-            options[c] = aux; 
-        }
-        else{
-            aux = lis[c].innerText;
-            lis[c].innerText = options[c];
-            options[c] = aux; 
-
-            c--;
-
-            aux = lis[c].innerText;
-            lis[c].innerText = options[c];
-            options[c] = aux; 
-        }
+    if (e.keyCode === 40){
+        lis[pos[0]].className = "";
+        pos.push(pos.shift());
+        lis[pos[0]].className = "select";
+        audio.play();
     }
-
-    if (e.keyCode == 40){
-        if (c === 2){
-            aux = lis[c].innerText;
-            lis[c].innerText = options[c];
-            options[c] = aux; 
-
-            c = 0;
-
-            aux = lis[c].innerText;
-            lis[c].innerText = options[c];
-            options[c] = aux; 
-        }
-        else{
-            aux = lis[c].innerText;
-            lis[c].innerText = options[c];
-            options[c] = aux; 
-
-            c++;
-
-            aux = lis[c].innerText;
-            lis[c].innerText = options[c];
-            options[c] = aux; 
-        }
+    if (e.keyCode === 38){
+        lis[pos[0]].className = "";
+        pos.unshift(pos.pop());
+        lis[pos[0]].className = "select";
+        audio.play();
     }
 }
