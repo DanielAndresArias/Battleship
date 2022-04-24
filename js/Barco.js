@@ -39,24 +39,24 @@ export default class Barco{
         if(posIni.x === posFin.x){
             if(posIni.y < posFin.y){
                 for(let i=posIni.y; i<=posFin.y; i++){
-                    this.posiciones.push(new Posicion (posIni.x, i));
+                    this.posiciones.push(new Posicion (i, posIni.x));
                 }
             }
             else{
                 for(let i=posFin.y; i<=posIni.y; i++){
-                    this.posiciones.push(new Posicion (posIni.x, i));
+                    this.posiciones.push(new Posicion (i, posIni.x));
                 }
             }
         }
         else if(posIni.y === posFin.y){
             if(posIni.x < posFin.x){
                 for(let i=posIni.x; i<=posFin.x; i++){
-                    this.posiciones.push(new Posicion (i, posIni.y));
+                    this.posiciones.push(new Posicion (posIni.y, i));
                 }
             }
             else{
                 for(let i=posFin.x; i<=posIni.x; i++){
-                    this.posiciones.push(new Posicion (i, posIni.y));
+                    this.posiciones.push(new Posicion (posIni.y, i));
                 }
             }
         }

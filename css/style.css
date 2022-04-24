@@ -1,14 +1,15 @@
+@charset "UTF-8";
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box; }
 
-.home {
+.background__body {
   background-color: #0a0a03;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   width: 100vw;
   height: 100vh;
   font-family: "Press Start 2P", cursive; }
@@ -49,7 +50,6 @@
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  align-self: flex-start;
   justify-content: space-around;
   height: 70vh; }
   .menu h1 {
@@ -80,3 +80,111 @@
     opacity: 0; }
   100% {
     opacity: 1; } }
+
+.main__singlePlayer {
+  background-color: #0a0a03;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100vw;
+  height: 100vh;
+  font-family: "Press Start 2P", cursive; }
+  .main__singlePlayer h1 {
+    color: #ffc400;
+    font-weight: 300;
+    font-size: 40px; }
+
+.singlePlayer {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: space-around;
+  width: 70vw;
+  height: 500px; }
+  .singlePlayer .map {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-flow: column nowrap;
+    border: 1px solid #26ff00; }
+    .singlePlayer .map div {
+      height: 50px;
+      display: flex;
+      flex-flow: row nowrap; }
+      .singlePlayer .map div div {
+        width: 50px;
+        border: 1px solid #26ff00; }
+  .singlePlayer .map__Enemy {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-flow: column nowrap;
+    border: 1px solid #26ff00; }
+    .singlePlayer .map__Enemy div {
+      height: 50px;
+      display: flex;
+      flex-flow: row nowrap; }
+      .singlePlayer .map__Enemy div div {
+        width: 50px;
+        border: 1px solid #26ff00; }
+
+.posicion {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center; }
+  .posicion article {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center; }
+    .posicion article label {
+      color: #ffc400;
+      font-weight: 300;
+      font-size: 20px;
+      margin: 10px; }
+    .posicion article input {
+      margin: 0 10px 0;
+      width: 80px;
+      height: 40px;
+      font-size: 30px;
+      text-align: center; }
+
+.agua {
+  background-color: lightblue; }
+
+.dañado {
+  background-color: yellow; }
+
+.multiplayer {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center; }
+  .multiplayer h1 {
+    font-size: 50px;
+    font-weight: 300;
+    color: #ffc400; }
+    .multiplayer h1 span {
+      animation-duration: 1.5s;
+      animation-name: parpadeo;
+      animation-iteration-count: infinite;
+      animation-delay: 0.5s; }
+
+.main__options section {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center; }
+  .main__options section label {
+    font-size: 20px;
+    font-weight: 300;
+    color: #fafafa;
+    margin: 10px;
+    width: auto; }
+  .main__options section input {
+    text-align: center;
+    font-size: 20px;
+    height: 30px;
+    width: 220px; }

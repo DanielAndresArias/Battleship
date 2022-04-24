@@ -1,9 +1,9 @@
 export default class Posicion{
-    x;
     y;
+    x;
 
-    constructor(x=0, y=0){
-        this.x = x;
+    constructor(y=0, x=0){
         this.y = y;
+        this.x = x;
     }
 }
