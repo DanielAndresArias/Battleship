@@ -6,11 +6,13 @@ import Posicion from './Posicion.js';
 let b = document.querySelector(".background__body");
 let posicion;
 let inputs = [document.querySelector("#PosY"), document.querySelector("#PosX")];
+let casilleros = document.querySelectorAll (".map__Enemy div div");
 let mapas = [];
 const jugador1 = new Jugador ("Daniel");
-const jugador2 = mapas[getRandomInt(0, 5)];
-alert ("Hay cuatro barcos:\n1) Un acorazado de un casillero de largo\n2) Un crucero de dos casilleros de largo\n3) Un submarino de tres casilleros de largo\n4) Un destructor de cuatro casilleros de largo");
 crearMapas();
+const jugador2 = mapas[getRandomInt(0, 5)];
+
+alert ("Hay cuatro barcos:\n1) Un acorazado de un casillero de largo\n2) Un crucero de dos casilleros de largo\n3) Un submarino de tres casilleros de largo\n4) Un destructor de cuatro casilleros de largo");
 
 b.addEventListener("keydown", volverAInicio);
 b.addEventListener("keydown", obtenerPosJugador);
@@ -22,7 +24,6 @@ function volverAInicio(e){
 }
 
 function obtenerPosJugador(e){
-    console.log(e.keyCode);
     if(e.keyCode === 13 && inputsValidos()){
         posicion = new Posicion(Number(inputs[0].value), Number(inputs[1].value));
         inputs[0].value = "";
@@ -53,7 +54,7 @@ function turno(){
     const pos = posicion;
     const tipo = jugador2.recibirDisparo(pos);
     jugador1.marcarTableroEnemigo(pos ,tipo);
-    pintarCasilleroEnemigo(pos, tipo);
+    pintarCasillero(pos, tipo);
 
     if(jugador2.barcos.length === 0){
         alert("Juego terminado");
@@ -61,17 +62,22 @@ function turno(){
     }
 }
 
-function pintarCasilleroEnemigo(p = new Posicion(0, 0), tipo=""){
-    let casilleros = document.querySelectorAll (".map__Enemy div div");
+function pintarCasillero(p = new Posicion(0, 0), tipo=""){
+    let casilleroMarcado = document.createElement("div");
     console.log(casilleros);
+    const splashAgua = new Audio ("../assets/sounds/splash-water.mp3");
+
+    casilleros[p.y*10+p.x].appendChild(casilleroMarcado);
+
 
     switch(tipo){
         case 'A':
-            casilleros[p.y*10+p.x].className = "agua";
+            casilleroMarcado.className = "agua";
+            splashAgua.play();
             break;
         case 'D':
         case 'H':
-            casilleros[p.y*10+p.x].className = "dañado";
+            casilleroMarcado.className = "dañado";
             break;
     }
 }
