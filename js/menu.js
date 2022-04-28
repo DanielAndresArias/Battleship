@@ -6,6 +6,8 @@ inputName.appendChild(ol);
 let pos = [0, 1, 2];
 let options = ["Single Player", "Multiplayer", "Score"];
 
+/* Crea las opciones del menu. */
+
 for (const option of options){
     let li = document.createElement("li");
     li.innerHTML = option;
@@ -15,6 +17,9 @@ for (const option of options){
 ol.firstChild.className = "select";
 
 b.addEventListener("keydown", cambiarEleccion);
+
+/* Esta función permite el desplazamiento con las teclas arrow up y down en el menu. Marca la opcion elegida y produce un ruido cada vez que 
+   se produce un desplazamiento.*/
 
 function cambiarEleccion(e){
     const lis = document.body.getElementsByTagName("li");
@@ -34,6 +39,8 @@ function cambiarEleccion(e){
     }
     document.querySelector("body").addEventListener("keydown", irAPagina);
 }
+
+/* Comprueba que opción fue seleccionada para redireccionar hacia esa página cuando se presiona la tecla Enter. */
 
 function irAPagina(e) {
     if(e.keyCode === 13){

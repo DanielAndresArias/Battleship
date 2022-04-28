@@ -8,8 +8,11 @@ let posicion;
 let inputs = [document.querySelector("#PosY"), document.querySelector("#PosX")];
 let casilleros = document.querySelectorAll (".map__Enemy div div");
 let mapas = [];
-const jugador1 = new Jugador ("Daniel");
+const jugador1 = new Jugador (localStorage.getItem("actualPlayer"));
 crearMapas();
+
+/* Crea un jugador con un mapa aleatorio. */
+
 const jugador2 = mapas[getRandomInt(0, 5)];
 
 alert ("Hay cuatro barcos:\n1) Un acorazado de un casillero de largo\n2) Un crucero de dos casilleros de largo\n3) Un submarino de tres casilleros de largo\n4) Un destructor de cuatro casilleros de largo");
@@ -17,21 +20,28 @@ alert ("Hay cuatro barcos:\n1) Un acorazado de un casillero de largo\n2) Un cruc
 b.addEventListener("keydown", volverAInicio);
 b.addEventListener("keydown", obtenerPosJugador);
 
+/* En caso de presionarse la tecla ESC se vuelve a la página menu. */
+
 function volverAInicio(e){
     if(e.keyCode === 27){
-        location.href="../index.html";
+        location.href="menu.html";
     }
 }
+
+/* Comprueba que la posición ingresada sea válida y que la tecla pulsada sea el Enter. Llama a la función turno() en caso de ser correcto el ingreso. */
 
 function obtenerPosJugador(e){
     if(e.keyCode === 13 && inputsValidos()){
         posicion = new Posicion(Number(inputs[0].value), Number(inputs[1].value));
         inputs[0].value = "";
         inputs[1].value = "";
+        inputs[0].focus();
         turno();
     }
     console.log(posicion);
 }
+
+/* Comprueba que se haya ingresado un número que no esté vacío y esté contenido en el rango [0-9]. */
 
 function inputsValidos(){
     if (!isNaN(inputs[0].value) && !isNaN(inputs[1].value) && inputs[0].value != "" && inputs[1].value != ""){
@@ -48,7 +58,8 @@ function inputsValidos(){
     return false;
 }
 
-// Hasta que no se hunde el último barco del enemigo el while no termina.
+/* Recibe el disparo del jugador al mapa del oponente. Llama a la función pintarCasillero() para pintar el casillero correspondiente.
+   En caso de terminarse el juego, guarda las estadísticas del jugador en LocalStorage y redirecciona al menu. */
 
 function turno(){
     const pos = posicion;
@@ -62,9 +73,12 @@ function turno(){
         score["victories"] =Number(score["victories"]) + 1;
         localStorage.setItem(actualPlayer, JSON.stringify(score));
         alert("Juego terminado");
-        location.href="../index.html";
+        location.href="menu.html";
     }
 }
+
+/* Pinta el casillero correspondiente al disparo. Amarillo para dañado y celeste para agua. Produce los correspondientes sonidos 
+para cada caso. */
 
 function pintarCasillero(p = new Posicion(0, 0), tipo=""){
     let casilleroMarcado = document.createElement("div");
@@ -87,6 +101,8 @@ function pintarCasillero(p = new Posicion(0, 0), tipo=""){
             break;
     }
 }
+
+/* Crea cinco jugadores con sus respectivos mapas. */
 
 function crearMapas(){
     const jugador1 = new Jugador ("Thread");
@@ -124,6 +140,8 @@ function crearMapas(){
     jugador5.ponerBarco(new Posicion(6,6), new Posicion(7,6));
     jugador5.ponerBarco(new Posicion(7,2), new Posicion(7,2));
 }
+
+/* Devuelve un número entero comprendido entre un min y un max. */
 
 function getRandomInt(min=0, max=0) {
     return Math.floor(Math.random() * (max - min)) + min;

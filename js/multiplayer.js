@@ -4,6 +4,6 @@ b.addEventListener("keyup", volverAInicio);
 
 function volverAInicio(e){
     if(e.keyCode === 27){
-        location.href="../index.html";
+        location.href="menu.html";
     }
 }

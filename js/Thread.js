@@ -1,3 +1,6 @@
+/* ---------------------------- CLASE EN DESARROLLO ------------------------------ */
+
+
 import Barco from "./Barco.js";
 import Tablero from "./Tablero.js";
 import Posicion from "./Posicion.js";

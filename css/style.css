@@ -268,3 +268,24 @@
     font-size: 20px;
     height: 30px;
     width: 220px; }
+
+.return__menu {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center; }
+  .return__menu span {
+    color: #fafafa; }
+
+.score {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center; }
+  .score h1 {
+    font-size: 50px;
+    color: #ffc400;
+    margin: 100px 0; }
+  .score p {
+    color: #fafafa;
+    margin: 10px; }

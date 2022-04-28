@@ -2,9 +2,8 @@ let b = document.querySelector("body");
 b.addEventListener("keydown", pressAnykey);
 
 
-/* Se ejecuta una sola vez cuando la página termina de cargar. Cuando se presiona cualquier tecla se pasa a la pantalla menu, la cual es construida
-   desde la misma función. Una vez desplegado el menu, cada vez que se presione las teclas arrows de up y down se llamará a la función
-   cambiarEleccion.*/
+/* Se ejecuta una sola vez cuando la página termina de cargar. Cuando se presiona cualquier tecla se pide el nombre del jugador, pagina que es construida
+   desde la misma función. Una vez ingresado el nombre se redirecciona a la pagina menu. */
 
 function pressAnykey(e){
     e.target.removeEventListener (e.type, pressAnykey);
@@ -23,18 +22,19 @@ function pressAnykey(e){
     b.addEventListener("keydown", goToMenu);
 }
 
+/* Una vez que se ingresa un nombre distinto de vacío y se presiona la tecla Enter, se redirecciona a la página menu. */
+
 function goToMenu(e){
     let inputName = document.body.querySelector(".input__name");
+    const audio = new Audio("assets/sounds/pop.mp3");
+    audio.play();
     if (e.keyCode === 13 && inputName.querySelector("input").value != ""){
         savePlayer(inputName.querySelector("input").value);
         location.href = "pages/menu.html";
     }
 }
 
-/* Se ejecuta cada vez que se presiona cualquier tecla pero solo se produce el desplazamiento si la tecla presionada es una tecla arrow (up o down).
-   También se produce un sonido en cada desplazamiento.*/
-
-
+/* Guarda el nombre del jugador. En caso de existir setea en LocalStorage el nombre del jugador que acaba de logearse. */
 
 function savePlayer(inputValue){
     if (!searchPlayer(inputValue)){
@@ -48,6 +48,8 @@ function savePlayer(inputValue){
     }
     localStorage.setItem("actualPlayer", inputValue.toLocaleUpperCase());
 }
+
+/* Devuelve true en caso de existir el nombre del jugador en LocalStorage. False en caso contrario. */
 
 function searchPlayer(inputValue){
     if (localStorage.getItem(inputValue) != null)
