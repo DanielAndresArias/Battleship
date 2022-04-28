@@ -129,30 +129,40 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: stretch;
-  justify-content: space-around;
-  width: 70vw;
+  justify-content: space-evenly;
+  width: 90vw;
   height: 500px; }
   .singlePlayer .map {
-    width: 500px;
-    height: 500px;
     display: flex;
     flex-flow: column nowrap;
-    border: 1px solid #26ff00; }
+    align-items: center; }
+    .singlePlayer .map h2 {
+      margin: 0 0 20px 50px;
+      color: #fafafa; }
     .singlePlayer .map div {
-      height: 50px;
+      height: 40px;
       display: flex;
       flex-flow: row nowrap; }
       .singlePlayer .map div div {
-        width: 50px;
+        width: 40px;
         border: 1px solid #26ff00; }
+      .singlePlayer .map div span {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: center;
+        color: #fafafa;
+        width: 40px;
+        height: 40px; }
   .singlePlayer .map__Enemy {
-    width: 500px;
-    height: 500px;
     display: flex;
     flex-flow: column nowrap;
-    border: 1px solid #26ff00; }
+    align-items: center; }
+    .singlePlayer .map__Enemy h2 {
+      margin: 0 0 20px 50px;
+      color: #fafafa; }
     .singlePlayer .map__Enemy div {
-      height: 50px;
+      height: 40px;
       display: flex;
       flex-flow: row nowrap; }
       .singlePlayer .map__Enemy div div {
@@ -160,8 +170,16 @@
         flex-flow: row nowrap;
         align-items: center;
         justify-content: center;
-        width: 50px;
+        width: 40px;
         border: 1px solid #26ff00; }
+      .singlePlayer .map__Enemy div span {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: center;
+        color: #fafafa;
+        width: 40px;
+        height: 40px; }
 
 .posicion {
   display: flex;
@@ -188,7 +206,7 @@
 .agua {
   height: 100%;
   width: 100%;
-  background-color: lightblue;
+  background-color: #61faff;
   border-radius: 100%;
   animation-duration: 1s;
   animation-name: disparo;
@@ -198,7 +216,7 @@
 .dañado {
   height: 0%;
   width: 0%;
-  background-color: yellow;
+  background-color: #f9ff47;
   border-radius: 0%;
   animation-duration: 1s;
   animation-name: disparo;

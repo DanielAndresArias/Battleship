@@ -3,6 +3,8 @@ $color-bg-home: #0a0a03;
 $color-font-yellow: #ffc400;
 $color-font-white: #fafafa;
 $color-border-map: #26ff00;
+$color-ship-damaged: #f9ff47;
+$color-ship-water: #61faff;
 
 *{
     margin: 0;
@@ -160,35 +162,48 @@ $color-border-map: #26ff00;
     display: flex;
     flex-flow: row nowrap;
     align-items: stretch;
-    justify-content: space-around;
-    width: 70vw;
+    justify-content: space-evenly;
+    width: 90vw;
     height: 500px;
 
     .map{
-        width: 500px;
-        height: 500px;
         display: flex;
         flex-flow: column nowrap;
-        border: 1px solid $color-border-map;
+        align-items: center;
+        h2{
+            margin: 0 0 20px 50px;
+            color: $color-font-white;
+        }
         div{
-            height: 50px;
+            height: 40px;
             display: flex;
             flex-flow: row nowrap;
             div{
-                width: 50px;
+                width: 40px;
                 border: 1px solid $color-border-map;
+            }
+            span{
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                justify-content: center;
+                color: $color-font-white;
+                width: 40px;
+                height: 40px;
             }
         }
     }
 
     .map__Enemy{
-        width: 500px;
-        height: 500px;
         display: flex;
         flex-flow: column nowrap;
-        border: 1px solid $color-border-map;
+        align-items: center;
+        h2{
+            margin: 0 0 20px 50px;
+            color: $color-font-white;
+        }
         div{
-            height: 50px;
+            height: 40px;
             display: flex;
             flex-flow: row nowrap;
             div{
@@ -196,8 +211,17 @@ $color-border-map: #26ff00;
                 flex-flow: row nowrap;
                 align-items: center;
                 justify-content: center;
-                width: 50px;
+                width: 40px;
                 border: 1px solid $color-border-map;
+            }
+            span{
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                justify-content: center;
+                color: $color-font-white;
+                width: 40px;
+                height: 40px;
             }
         }
     }
@@ -232,7 +256,7 @@ $color-border-map: #26ff00;
 .agua{
     height: 100%;
     width: 100%;
-    background-color: lightblue;
+    background-color: $color-ship-water;
     border-radius: 100%;
     animation-duration: 1s;
     animation-name: disparo;
@@ -243,7 +267,7 @@ $color-border-map: #26ff00;
 .dañado{
     height: 0%;
     width: 0%;
-    background-color: yellow;
+    background-color: $color-ship-damaged;
     border-radius: 0%;
     animation-duration: 1s;
     animation-name: disparo;

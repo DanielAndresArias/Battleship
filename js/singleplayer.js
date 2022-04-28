@@ -57,6 +57,10 @@ function turno(){
     pintarCasillero(pos, tipo);
 
     if(jugador2.barcos.length === 0){
+        const actualPlayer = localStorage.getItem("actualPlayer");
+        const score = JSON.parse(localStorage.getItem(actualPlayer));
+        score["victories"] =Number(score["victories"]) + 1;
+        localStorage.setItem(actualPlayer, JSON.stringify(score));
         alert("Juego terminado");
         location.href="../index.html";
     }
@@ -66,6 +70,7 @@ function pintarCasillero(p = new Posicion(0, 0), tipo=""){
     let casilleroMarcado = document.createElement("div");
     console.log(casilleros);
     const splashAgua = new Audio ("../assets/sounds/splash-water.mp3");
+    const explosion = new Audio ("../assets/sounds/explosion.mp3");
 
     casilleros[p.y*10+p.x].appendChild(casilleroMarcado);
 
@@ -78,6 +83,7 @@ function pintarCasillero(p = new Posicion(0, 0), tipo=""){
         case 'D':
         case 'H':
             casilleroMarcado.className = "dañado";
+            explosion.play();
             break;
     }
 }
