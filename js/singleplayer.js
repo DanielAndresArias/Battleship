@@ -15,7 +15,16 @@ crearMapas();
 
 const jugador2 = mapas[getRandomInt(0, 5)];
 
-alert ("Hay cuatro barcos:\n1) Un acorazado de un casillero de largo\n2) Un crucero de dos casilleros de largo\n3) Un submarino de tres casilleros de largo\n4) Un destructor de cuatro casilleros de largo");
+//alert ("Hay cuatro barcos:\n1) Un acorazado de un casillero de largo\n2) Un crucero de dos casilleros de largo\n3) Un submarino de tres casilleros de largo\n4) Un destructor de cuatro casilleros de largo");
+Swal.fire({
+    title: 'Barcos',
+    text: "\n1) Un acorazado de un casillero de largo\n2) Un crucero de dos casilleros de largo\n3) Un submarino de tres casilleros de largo\n4) Un destructor de cuatro casilleros de largo",
+    confirmButtonText: 'Ok',
+    background: "#000",
+    color: "#fff",
+});
+
+
 
 b.addEventListener("keydown", volverAInicio);
 b.addEventListener("keydown", obtenerPosJugador);
@@ -48,7 +57,20 @@ function inputsValidos(){
         if(inputs[0].value >= 0 && inputs[1].value >= 0 && inputs[0].value < 10 && inputs[1].value < 10)
         return true;
         else{
-        alert("¡Numero de posición inválido! Por favor ingrese posiciones de 0 a 9 inclusive");
+        Toastify({
+            text: `¡Numero de posición inválido! Por favor ingrese posiciones de 0 a 9 inclusive`,
+            duration: 2000,
+            style:{
+                position: 'absolute',
+                margin: '10vh',
+                border: 'solid 4px white',
+                width: '400px',
+                padding: '20px 40px',
+                background: '#000',
+                color: 'white',
+                textaling: 'center',
+            }
+        }).showToast();
         inputs[0].value = "";
         inputs[1].value = "";
         return false;
@@ -72,8 +94,20 @@ function turno(){
         const score = JSON.parse(localStorage.getItem(actualPlayer));
         score["victories"] =Number(score["victories"]) + 1;
         localStorage.setItem(actualPlayer, JSON.stringify(score));
-        alert("Juego terminado");
-        location.href="menu.html";
+        Toastify({
+            text: `Victory!`,
+            duration: 2000,
+            style:{
+                position: 'absolute',
+                margin: '10vh',
+                border: 'solid 4px white',
+                padding: '50px 100px',
+                background: '#000',
+                color: 'white',
+                textaling: 'center'
+            }
+        }).showToast();
+        setTimeout(() => {location.href="../menu.html"}, 2001);
     }
 }
 

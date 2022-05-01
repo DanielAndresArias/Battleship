@@ -30,7 +30,22 @@ function goToMenu(e){
     audio.play();
     if (e.keyCode === 13 && inputName.querySelector("input").value != ""){
         savePlayer(inputName.querySelector("input").value);
-        location.href = "pages/menu.html";
+        Toastify({
+            text: `Bienvenido ${inputName.querySelector("input").value}!`,
+            duration: 1000,
+            style:{
+                position: 'absolute',
+                margin: '10vh',
+                border: 'solid 4px white',
+                padding: '50px 100px',
+                background: '#000',
+                color: 'white',
+                textaling: 'center'
+            }
+        }).showToast();
+        setTimeout(() => {location.href="pages/menu.html"}, 1001);
+    
+        /* location.href = "pages/menu.html"; */
     }
 }
 
