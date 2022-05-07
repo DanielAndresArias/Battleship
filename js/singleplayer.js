@@ -14,8 +14,9 @@ crearMapas();
 /* Crea un jugador con un mapa aleatorio. */
 
 const jugador2 = mapas[getRandomInt(0, 5)];
+asignarNombre();
 
-//alert ("Hay cuatro barcos:\n1) Un acorazado de un casillero de largo\n2) Un crucero de dos casilleros de largo\n3) Un submarino de tres casilleros de largo\n4) Un destructor de cuatro casilleros de largo");
+
 Swal.fire({
     title: 'Barcos',
     text: "\n1) Un acorazado de un casillero de largo\n2) Un crucero de dos casilleros de largo\n3) Un submarino de tres casilleros de largo\n4) Un destructor de cuatro casilleros de largo",
@@ -139,35 +140,35 @@ function pintarCasillero(p = new Posicion(0, 0), tipo=""){
 /* Crea cinco jugadores con sus respectivos mapas. */
 
 function crearMapas(){
-    const jugador1 = new Jugador ("Thread");
+    const jugador1 = new Jugador ("");
     mapas.push(jugador1);
     jugador1.ponerBarco(new Posicion(1,1), new Posicion(1,1));
     jugador1.ponerBarco(new Posicion(3,4), new Posicion(4,4));
     jugador1.ponerBarco(new Posicion(6,2), new Posicion(6,5));
     jugador1.ponerBarco(new Posicion(7,8), new Posicion(9,8));
 
-    const jugador2 = new Jugador ("Thread");
+    const jugador2 = new Jugador ("");
     mapas.push(jugador2);
     jugador2.ponerBarco(new Posicion(1,4), new Posicion(1,4));
     jugador2.ponerBarco(new Posicion(4,5), new Posicion(4,6));
     jugador2.ponerBarco(new Posicion(5,2), new Posicion(8,2));
     jugador2.ponerBarco(new Posicion(6,4), new Posicion(6,6));
     
-    const jugador3 = new Jugador ("Thread");
+    const jugador3 = new Jugador ("");
     mapas.push(jugador3);
     jugador3.ponerBarco(new Posicion(0,9), new Posicion(1,9));
     jugador3.ponerBarco(new Posicion(1,1), new Posicion(4,1));
     jugador3.ponerBarco(new Posicion(4,4), new Posicion(4,4));
     jugador3.ponerBarco(new Posicion(7,3), new Posicion(7,5));
 
-    const jugador4 = new Jugador ("Thread");
+    const jugador4 = new Jugador ("");
     mapas.push(jugador4);
     jugador4.ponerBarco(new Posicion(1,1), new Posicion(1,3));
     jugador4.ponerBarco(new Posicion(5,6), new Posicion(8,6));
     jugador4.ponerBarco(new Posicion(6,1), new Posicion(6,2));
     jugador4.ponerBarco(new Posicion(9,9), new Posicion(9,9));
 
-    const jugador5 = new Jugador ("Thread");
+    const jugador5 = new Jugador ("");
     mapas.push(jugador5);
     jugador5.ponerBarco(new Posicion(2,4), new Posicion(5,4));
     jugador5.ponerBarco(new Posicion(2,6), new Posicion(2,8));
@@ -179,4 +180,15 @@ function crearMapas(){
 
 function getRandomInt(min=0, max=0) {
     return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function asignarNombre(){
+    fetch('https://randomuser.me/api/')
+    .then((resp) => resp.json())
+    .then(nombre => {
+        console.log(nombre.results[0].name.first);
+        jugador2.nombre = nombre.results[0].name.first;
+        const h2 = document.querySelector(".map__Enemy h2");
+        h2.innerHTML = `${nombre.results[0].name.first}\´s map`
+    });
 }
