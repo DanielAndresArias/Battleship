@@ -8,13 +8,21 @@ import Posicion from "./Posicion.js";
 export default class Thread{
     nombre;
     barcos=[];
-    disparosARealizar=[];
+    disparosDisponibles=[];
+    posicionesADisparar=[];
+    posicionAnterior;
     tablero = new Tablero();
     tableroEnemigo = new Tablero();
-    posicionAnterior;
 
     constructor(nombre=""){
         this.nombre = nombre;
+        this.crearDisparosDisponibles();
+    }
+
+    cargarDisparosDisponibles(){
+        for(let i=0; i<100; i++){
+            this.disparosDisponibles[i] = i;
+        }
     }
 
     /* Recibe por parámetros las posiciones en donde se va a ubicar el barco. 
@@ -47,21 +55,13 @@ export default class Thread{
     /* Determina una posicion a disparar de manera aleatoria y verifica que no haya sido descartada antes para luego guardarla
        en disparosARealizar. */
 
-    posicionADisparar (){
-        while(true){
-            let x = this.getRandomInt(0, 10);
-            let y = this.getRandomInt(0, 10);
-
-            if (this.tableroEnemigo.esAguaOEsDañado(new Posicion(x, y))){
-            }
-            else{
-                this.disparosARealizar.push(new Posicion(x, y));
-                break;
-            }
-        }
+    disparoAlAzar (){
+        const posRandom = this.getRandomInt(0, this.disparosDisponibles.length);
+        this.disparosDisponibles.splice(posRandom, 1);
+        return new Posicion (posRandom/10, posRandom%10);
     }
 
-    /* Retorna A si se a disparado a Agua o D si se daño un barco del tablero. */
+    /* Retorna A si se ha disparado a Agua o D si se daño un barco del tablero. */
 
     recibirDisparo (posicion = new Posicion(0,0)){
         if(this.tablero.mapa[posicion.x][posicion.y] === "X"){
@@ -73,7 +73,7 @@ export default class Thread{
                     this.barcos[i].incrementarDisparos();
                     if (this.barcos[i].estado === "Hundido"){
                         this.barcos.splice(i,1);
-                        break;
+                        return "H";
                     }
                 }
             }
@@ -115,11 +115,5 @@ export default class Thread{
                 this.disparosARealizar.push(new Posicion(posX, posY+1));
             }
         }
-
-        
-    }
-
-    disparar(){
-        this.posicionAnterior = this.disparosARealizar.pop();
     }
 }
