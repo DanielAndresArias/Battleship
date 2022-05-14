@@ -10,7 +10,9 @@ export default class Thread{
     barcos=[];
     disparosDisponibles=[];
     posicionesADisparar=[];
-    posicionAnterior;
+    posicionInicial=null;
+    posicionAnterior=null;
+    respuestaEnemigo="";
     tablero = new Tablero();
     tableroEnemigo = new Tablero();
 
@@ -52,15 +54,6 @@ export default class Thread{
         }
     }
 
-    /* Determina una posicion a disparar de manera aleatoria y verifica que no haya sido descartada antes para luego guardarla
-       en disparosARealizar. */
-
-    disparoAlAzar (){
-        const posRandom = this.getRandomInt(0, this.disparosDisponibles.length);
-        this.disparosDisponibles.splice(posRandom, 1);
-        return new Posicion (posRandom/10, posRandom%10);
-    }
-
     /* Retorna A si se ha disparado a Agua o D si se daño un barco del tablero. */
 
     recibirDisparo (posicion = new Posicion(0,0)){
@@ -93,27 +86,111 @@ export default class Thread{
         }
     }
 
-    getRandomInt(min=0, max=0) {
-        return Math.floor(Math.random() * (max - min)) + min;
+    recibirRespuestaEnemigo(tipo=""){
+        this.respuestaEnemigo = tipo;
+    }
+
+    disparar(){
+        if(this.posicionesADisparar.length === 0){
+            this.posicionInicial = this.disparoAlAzar();
+            return this.posicionInicial;
+        }
+        else if(this.posicionesADisparar.length >= 1){
+            this.posicionAnterior = this.posicionesADisparar[this.posicionesADisparar.length-1];
+            return this.posicionAnterior;
+        }
+    }
+
+    /* Determina una posicion a disparar de manera aleatoria y verifica que no haya sido descartada antes para luego guardarla
+       en disparosARealizar. */
+
+    disparoAlAzar (){
+        const posRandom = this.getRandomInt(0, this.disparosDisponibles.length);
+        this.disparosDisponibles.splice(posRandom, 1);
+        return new Posicion (posRandom/10, posRandom%10);
     }
 
     proximasPosicionesADisparar (){
-        const posX = this.posicionAnterior.x;
-        const posY = this.posicionAnterior.y;
+        const posX = this.posicionInicial.x;
+        const posY = this.posicionInicial.y;
         
-        if(this.disparosARealizar.length === 0){
-            if(posX != 0){
+        if(this.posicionesADisparar.length === 0){
+            if(posX > 0){
                 this.disparosARealizar.push(new Posicion(posX-1, posY));
             }
-            if(posY != 0){
+            if(posY > 0){
                 this.disparosARealizar.push(new Posicion(posX, posY-1));
             }
-            if(posX != 9){
+            if(posX < 9){
                 this.disparosARealizar.push(new Posicion(posX+1, posY));
             }
-            if(posY != 9){
+            if(posY < 9){
                 this.disparosARealizar.push(new Posicion(posX, posY+1));
             }
         }
+        else if(this.posicionesADisparar.length >= 1){
+            this.descartarPosicionesADisparar();
+        }
+    }
+
+    proximaPosicionADisparar(){
+        if(this.respuestaEnemigo === "D"){
+            if(this.posicionInicial.x === this.posicionAnterior.x){
+                if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
+                    this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y+1, this.posicionAnterior.x));
+                    this.disparosDisponibles.splice((this.posicionAnterior.y+1)*10+this.posicionAnterior.x, 1);
+                }
+                else{
+                    this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y-1, this.posicionAnterior.x));
+                    this.disparosDisponibles.splice((this.posicionAnterior.y-1)*10+this.posicionAnterior.x, 1);
+                }
+            }
+            else{
+                if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
+                    this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x+1));
+                    this.disparosDisponibles.splice((this.posicionAnterior.y)*10+this.posicionAnterior.x+1, 1);
+                }
+                else{
+                    this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x-1));
+                    this.disparosDisponibles.splice((this.posicionAnterior.y)*10+this.posicionAnterior.x-1, 1);
+                }
+            }
+        }
+        else if(this.respuestaEnemigo === "A"){
+            if(this.posicionInicial.x === this.posicionAnterior.x){
+                if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
+                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y-1, this.posicionInicial.x));
+                    this.disparosDisponibles.splice((this.posicionAnterior.y-1)*10+this.posicionAnterior.x, 1);
+                }
+                else{
+                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y+1, this.posicionInicial.x));
+                    this.disparosDisponibles.splice((this.posicionInicial.y+1)*10+this.posicionInicial.x, 1);
+                }
+            }
+            else{
+                if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
+                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x-1));
+                    this.disparosDisponibles.splice((this.posicionInicial.y)*10+this.posicionInicial.x-1, 1);
+                }
+                else{
+                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x+1));
+                    this.disparosDisponibles.splice((this.posicionInicial.y)*10+this.posicionInicial.x+1, 1);
+                }
+            }
+        }
+        else{
+            this.posicionesADisparar.splice(0, this.posicionesADisparar.length);
+        }
+    }
+
+    descartarPosicionesADisparar(){
+        if (this.respuestaEnemigo === "D"){
+            this.posicionesADisparar.splice(0, this.posicionesADisparar.length);
+            this.proximaPosicionADisparar();
+        }
+    }
+
+    getRandomInt(min=0, max=0) {
+        return Math.floor(Math.random() * (max - min)) + min;
     }
 }
