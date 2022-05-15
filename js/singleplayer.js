@@ -46,7 +46,7 @@ function obtenerPosJugador(e){
         inputs[0].value = "";
         inputs[1].value = "";
         inputs[0].focus();
-        turno();
+        turno2();
     }
     console.log(posicion);
 }
@@ -191,4 +191,32 @@ function asignarNombre(){
         const h2 = document.querySelector(".map__Enemy h2");
         h2.innerHTML = `${nombre.results[0].name.first}\´s map`
     });
+}
+
+function turno2(){
+    const pos = posicion;
+    const tipo = jugador2.recibirDisparo(pos);
+    jugador1.marcarTableroEnemigo(pos ,tipo);
+    pintarCasillero(pos, tipo);
+
+    if(jugador2.barcos.length === 0){
+        const actualPlayer = localStorage.getItem("actualPlayer");
+        const score = JSON.parse(localStorage.getItem(actualPlayer));
+        score["victories"] =Number(score["victories"]) + 1;
+        localStorage.setItem(actualPlayer, JSON.stringify(score));
+        Toastify({
+            text: `Victory!`,
+            duration: 2000,
+            style:{
+                position: 'absolute',
+                margin: '10vh',
+                border: 'solid 4px white',
+                padding: '50px 100px',
+                background: '#000',
+                color: 'white',
+                textaling: 'center'
+            }
+        }).showToast();
+        setTimeout(() => {location.href="../menu.html"}, 2001);
+    }
 }
