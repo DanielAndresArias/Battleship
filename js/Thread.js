@@ -138,21 +138,25 @@ export default class Thread{
         const posY = this.posicionInicial.y;
 
         if(posX > 0){
+            if(this.disparosDisponibles.includes(posY*10 + posX-1))
             this.posicionesADisparar.push(new Posicion(posY, posX-1));
         }
         if(posY > 0){
+            if(this.disparosDisponibles.includes((posY-1)*10 + posX))
             this.posicionesADisparar.push(new Posicion(posY-1, posX));
         }
         if(posX < 9){
+            if(this.disparosDisponibles.includes(posY*10 + posX+1))
             this.posicionesADisparar.push(new Posicion(posY, posX+1));
         }
         if(posY < 9){
+            if(this.disparosDisponibles.includes((posY+1)*10 + posX))
             this.posicionesADisparar.push(new Posicion(posY+1, posX));
         }
     }
 
     proximaPosicionADisparar(){
-        if(this.respuestaEnemigo === "D"){
+        if(this.respuestaEnemigo === "D" && (this.posicionAnterior.x != 9 || this.posicionAnterior.x != 0 || this.posicionAnterior.y != 9 || this.posicionAnterior.y != 0)){
             if(this.posicionInicial.x === this.posicionAnterior.x){
                 if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
                     this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y+1, this.posicionAnterior.x));
@@ -174,7 +178,7 @@ export default class Thread{
                 }
             }
         }
-        else if(this.respuestaEnemigo === "A"){
+        else if(this.respuestaEnemigo === "A" || this.posicionAnterior.x === 9 || this.posicionAnterior.x === 0 || this.posicionAnterior.y === 9 || this.posicionAnterior.y === 0){
             if(this.posicionInicial.x === this.posicionAnterior.x){
                 if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
                     this.posicionesADisparar.push(new Posicion(this.posicionInicial.y-1, this.posicionInicial.x));

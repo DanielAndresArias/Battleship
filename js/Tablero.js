@@ -36,7 +36,6 @@ export default class Tablero{
 
     marcarAgua (posicion=new Posicion (0,0)){
         this.mapa [posicion.y][posicion.x] = "A";
-        alert("¡Agua!");
     }
 
      /* Cambia el estado de un casillero ubicando una D para representar la posicion de un barco dañado */

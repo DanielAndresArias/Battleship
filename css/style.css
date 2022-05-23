@@ -144,6 +144,11 @@
       display: flex;
       flex-flow: row nowrap; }
       .singlePlayer .map div div {
+        position: relative;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: center;
         width: 40px;
         border: 1px solid #26ff00; }
       .singlePlayer .map div span {
@@ -166,6 +171,7 @@
       display: flex;
       flex-flow: row nowrap; }
       .singlePlayer .map__Enemy div div {
+        position: relative;
         display: flex;
         flex-flow: row nowrap;
         align-items: center;
@@ -204,20 +210,30 @@
       text-align: center; }
 
 .agua {
-  height: 100%;
-  width: 100%;
+  position: absolute;
   background-color: #61faff;
-  border-radius: 100%;
-  animation-duration: 1s;
-  animation-name: disparo;
-  animation-iteration-count: initial;
-  animation-fill-mode: forwards; }
+  border-radius: 0%; }
 
 .dañado {
+  position: absolute;
   height: 0%;
   width: 0%;
   background-color: #f9ff47;
-  border-radius: 0%;
+  border-radius: 0%; }
+
+.barco {
+  height: 40%;
+  width: 40%;
+  background-color: #ff7b00;
+  border-radius: 0%; }
+
+.destruido {
+  height: 0%;
+  width: 0%;
+  background-color: #e72626;
+  border-radius: 0%; }
+
+.disparo--animacion {
   animation-duration: 1s;
   animation-name: disparo;
   animation-iteration-count: initial;
@@ -229,13 +245,13 @@
     width: 0%;
     border-radius: 0%; }
   50% {
-    height: 80%;
-    width: 80%;
-    border-radius: 80%; }
+    height: 100%;
+    width: 100%;
+    border-radius: 100%; }
   100% {
-    height: 50%;
-    width: 50%;
-    border-radius: 50%; } }
+    height: 75%;
+    width: 75%;
+    border-radius: 75%; } }
 
 .multiplayer {
   display: flex;

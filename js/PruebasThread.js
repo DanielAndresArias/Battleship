@@ -58,6 +58,8 @@ pruebaTurno("A");
 pruebaTurno("D");
 pruebaTurno("D");
 pruebaTurno("A");
+pruebaTurno("H");
+pruebaTurno("D");
 
 function pruebaTurno(tipo=""){
 
