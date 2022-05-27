@@ -5,6 +5,7 @@ import Posicion from "./Posicion.js";
 export default class Jugador{
     nombre;
     barcos=[];
+    barcoHundido=null;
     disparosEfectuados;
     direccion;
     tablero = new Tablero();
@@ -20,13 +21,11 @@ export default class Jugador{
     crearBarco(posIni = new Posicion (0,0), posFin = new Posicion (9,9)){
         if(posIni.x === posFin.x){
             const b = new Barco(Math.abs(posFin.y-posIni.y));
-            console.log(b.posiciones);
             b.establecerPosiciones(posIni, posFin);
             this.barcos.push(b);
         }
         else if(posIni.y === posFin.y){
             const b = new Barco(Math.abs(posFin.x-posIni.x));
-            console.log(b.posiciones);
             b.establecerPosiciones(posIni, posFin);
             this.barcos.push(b);
         }
@@ -54,6 +53,7 @@ export default class Jugador{
                 if (this.barcos[i].seEncuentra(posicion)){
                     this.barcos[i].incrementarDisparos();
                     if (this.barcos[i].estado === "Hundido"){
+                        this.barcoHundido = this.barcos[i];
                         this.barcos.splice(i,1);
                         return "H";
                     }
@@ -66,14 +66,9 @@ export default class Jugador{
     /* Recibe por parámetros la posición y respuesta del enemigo al disparo efectuado.
     Marca en el tableroEnemigo la respuesta recibida. */
 
-    marcarTableroEnemigo (posicion = new Posicion(0,0), tipo = ""){
-        if (tipo == "A"){
-            this.tableroEnemigo.marcarAgua(posicion);
-        }
-        else if (tipo == "D"){
-            this.tableroEnemigo.marcarDañado(posicion);
-        }
-    }
+    marcarTableroEnemigo = (posicion = new Posicion(0,0), tipo = "") => (tipo == "A")? this.tableroEnemigo.marcarAgua(posicion) : this.tableroEnemigo.marcarDañado(posicion);
+
+    /* Llena el mapa con barcos dispuestos al azar. */
 
     llenarTablero(){
         while(this.barcos.length < 8){
@@ -87,6 +82,8 @@ export default class Jugador{
             }
         }
     }
+
+    /* Devuelve el tamaño del barco a construirse. */
 
     getTamañoBarco(){
         switch(this.barcos.length){
@@ -106,6 +103,8 @@ export default class Jugador{
         }
     }
 
+    /* Devuelve la posición inicial. En caso de no encontrarse una posición válida, devuelve null. */
+
     getPosIni(){
         let posIni = null;
         let posicionValida = false;
@@ -122,6 +121,8 @@ export default class Jugador{
         }
         return posIni;
     }
+
+    /* Devuelve la posición final. En caso de no encontrarse una posición válida, devuelve null. */
 
     getPosFin(posIni = new Posicion(0,0)){
         this.direccion = this.getRandomInt(0, 2);
@@ -185,7 +186,7 @@ export default class Jugador{
         return posFin;
     }
 
-    getRandomInt(min=0, max=0) {
-        return Math.floor(Math.random() * (max - min)) + min;
-    }
+    /* Devuelve un número al azar comprendido entre un min y max pasados por parámetros. No incluye el max. */
+
+    getRandomInt = (min=0, max=0) => Math.floor(Math.random() * (max - min)) + min;
 }

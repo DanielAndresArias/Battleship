@@ -69,12 +69,7 @@ export default class Barco{
 
     incrementarDisparos (){
         this.disparosRecibidos++;
-        if (this.tamaño != this.disparosRecibidos){
-            this.cambiarEstado("Dañado");
-        }
-        else{
-            this.cambiarEstado("Hundido");
-        }
+        (this.tamaño != this.disparosRecibidos)? this.cambiarEstado("Dañado") : this.cambiarEstado("Hundido");
     }
 
     /* Cambia el estado del barco. */

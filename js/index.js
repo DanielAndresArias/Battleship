@@ -44,8 +44,6 @@ function goToMenu(e){
             }
         }).showToast();
         setTimeout(() => {location.href="pages/menu.html"}, 1001);
-    
-        /* location.href = "pages/menu.html"; */
     }
 }
 

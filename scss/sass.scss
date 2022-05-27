@@ -282,6 +282,13 @@ $color-ship: #ff7b00;
     border-radius: 0%;
 }
 
+.barco--hundido{
+    height: 40%;
+    width: 40%;
+    background-color: $color-ship-destroy;
+    border-radius: 0%;
+}
+
 .destruido{
     height: 0%;
     width: 0%;

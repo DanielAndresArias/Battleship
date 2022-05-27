@@ -1,8 +1,4 @@
-/* ---------------------------- CLASE EN DESARROLLO ------------------------------ */
-
 import Jugador from "./Jugador.js";
-import Barco from "./Barco.js";
-import Tablero from "./Tablero.js";
 import Posicion from "./Posicion.js";
 
 export default class Thread extends Jugador{
@@ -12,10 +8,15 @@ export default class Thread extends Jugador{
     posicionAnterior=null;
     respuestaEnemigo="";
 
+    /* Constructor de la clase Thread. Llama a la superclase y le pasa el nombre por parámetro.
+       Carga el arreglo de disparos disponibles. */
+
     constructor(nombre=""){
         super(nombre);
         this.cargarDisparosDisponibles();
     }
+
+    /* Algoritmo para disparar al mapa de jugador. Devuelve una posición válida a disparar. */
 
     disparar(){
         if(this.posicionesADisparar.length === 0){
@@ -29,6 +30,8 @@ export default class Thread extends Jugador{
             return this.posicionAnterior;
         }
     }
+
+    /* Recibe por parámetro la respuesta de jugador al disparo. Ejecuta ciertas funciones en base a la respuesta recibida. */
 
     recibirRespuestaEnemigo(tipo=""){
         this.respuestaEnemigo = tipo;
@@ -64,6 +67,8 @@ export default class Thread extends Jugador{
         return new Posicion (Math.trunc(posRandom/10), posRandom%10);
     }
 
+    /* Carga entre dos y cuatro posiciones en el arreglo posicionesADisparar. */
+
     proximasPosicionesADisparar (){
         const posX = this.posicionInicial.x;
         const posY = this.posicionInicial.y;
@@ -78,10 +83,13 @@ export default class Thread extends Jugador{
         
     }
 
+    /* Carga la próxima posición a disparar. */
+
     proximaPosicionADisparar(){
         if(this.fueDañado()){
             if(this.fueraDelLimite()){
                 this.mantenerDireccion();
+                (this.tableroEnemigo.mapa[this.posicionesADisparar[0].y][this.posicionesADisparar[0].x] === "A") && this.cambiarDireccion();
             }
             else{
                 this.cambiarDireccion();
@@ -90,87 +98,63 @@ export default class Thread extends Jugador{
         else if(this.fueAgua()){
             this.cambiarDireccion();
         }
-
-        /* if(this.tableroEnemigo.mapa[this.posicionesADisparar[0].y][this.posicionesADisparar[0].x] === "A"){
-            this.cambiarDireccion();
-        } */
     }
 
-    fueDañado(){
-        return (this.respuestaEnemigo === "D");
-    }
+    /* Las tres funciones siguientes comprueban la respuesta del enemigo. Devuelven true si se cumple la condición.
+       False caso contrario. */
 
-    fueAgua(){
-        return (this.respuestaEnemigo === "A");
-    }
+    fueDañado = () => (this.respuestaEnemigo === "D");
 
-    fueHundido(){
-        return (this.respuestaEnemigo === "H");
-    }
+    fueAgua = () => (this.respuestaEnemigo === "A");
+
+    fueHundido = () => (this.respuestaEnemigo === "H");
+
+    /* Comprueba que el último disparo no haya sido en el límite del mapa. True si no está en el límite.
+       False caso contrario. */
 
     fueraDelLimite(){
-        if(this.posicionInicial.x === this.posicionAnterior.x){
-            if(this.posicionAnterior.y !== 9){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-        else{
-            if(this.posicionAnterior.x !== 9){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
+        return (this.posicionInicial.x === this.posicionAnterior.x)? this.posicionAnterior.y !== 9 : this.posicionAnterior.x !== 9;
     }
+
+    /* Carga el próximo disparo a realizar manteniendo la dirección actual de disparos. */
 
     mantenerDireccion(){
         if(this.posicionInicial.x === this.posicionAnterior.x){
-            if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
-                this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y+1, this.posicionAnterior.x));
-            }
-            else{
-                this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y-1, this.posicionAnterior.x));
-            }
+            ((this.posicionInicial.y - this.posicionAnterior.y) < 0)? this.avanzarPosYAnt() : this.retrocederPosYAnt();
         }
         else{
-            if((this.posicionInicial.x - this.posicionAnterior.x) < 0){
-                this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x+1));
-            }
-            else{
-                this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x-1));
-            }
-        }
-        if(this.tableroEnemigo.mapa[this.posicionesADisparar[0].y][this.posicionesADisparar[0].x] === "A"){
-            this.cambiarDireccion();
+            ((this.posicionInicial.x - this.posicionAnterior.x) < 0)? this.avanzarPosXAnt() : this.retrocederPosXAnt();
         }
     }
+
+    avanzarPosXAnt = () => this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x+1));
+
+    retrocederPosXAnt = () => this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x-1));
+
+    avanzarPosYAnt = () => this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y+1, this.posicionAnterior.x));
+
+    retrocederPosYAnt = () => this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y-1, this.posicionAnterior.x));
+
+    /* Carga el próximo disparo a realizar cambiando la dirección actual y tomando como referencia al disparo inicial realizado. */
 
     cambiarDireccion(){
         if(this.posicionInicial.x === this.posicionAnterior.x){
-            if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
-                this.posicionesADisparar.push(new Posicion(this.posicionInicial.y-1, this.posicionInicial.x));
-            }
-            else{
-                this.posicionesADisparar.push(new Posicion(this.posicionInicial.y+1, this.posicionInicial.x))
-            }
+            ((this.posicionInicial.y - this.posicionAnterior.y) < 0)? this.retrocederPosYIni() : this.avanzarPosYIni();
         }
         else{
-            if((this.posicionInicial.x - this.posicionAnterior.x) < 0){
-                this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x-1))
-            }
-            else{
-                this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x+1))
-            }
+            ((this.posicionInicial.x - this.posicionAnterior.x) < 0)? this.retrocederPosXIni() : this.avanzarPosXIni();
         }
     }
 
-    descartarPosicionesADisparar(){
-        this.posicionesADisparar.splice(0, this.posicionesADisparar.length);
-    }
+    avanzarPosXIni = () => this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x+1));
+
+    retrocederPosXIni = () => this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x-1));
+
+    avanzarPosYIni = () => this.posicionesADisparar.push(new Posicion(this.posicionInicial.y+1, this.posicionInicial.x));
+
+    retrocederPosYIni = () => this.posicionesADisparar.push(new Posicion(this.posicionInicial.y-1, this.posicionInicial.x));
+
+    descartarPosicionesADisparar = () => this.posicionesADisparar.splice(0, this.posicionesADisparar.length);
 
     cargarDisparosDisponibles(){
         for(let i=0; i<100; i++){

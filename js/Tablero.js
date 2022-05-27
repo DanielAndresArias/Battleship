@@ -28,21 +28,15 @@ export default class Tablero{
 
     /* Cambia el estado de un casillero ubicando una B para representar la posicion de un barco */
 
-    marcarBarco(posicion=new Posicion (0,0)){
-        this.mapa [posicion.y][posicion.x] = "B";
-    }
+    marcarBarco = (posicion=new Posicion (0,0)) => this.mapa [posicion.y][posicion.x] = "B";
 
     /* Cambia el estado de un casillero ubicando una A para representar agua */
 
-    marcarAgua (posicion=new Posicion (0,0)){
-        this.mapa [posicion.y][posicion.x] = "A";
-    }
+    marcarAgua = (posicion=new Posicion (0,0)) => this.mapa [posicion.y][posicion.x] = "A";
 
      /* Cambia el estado de un casillero ubicando una D para representar la posicion de un barco dañado */
 
-    marcarDañado (posicion=new Posicion (0,0)){
-        this.mapa [posicion.y][posicion.x] = "D";
-    }
+    marcarDañado = (posicion=new Posicion (0,0)) => this.mapa [posicion.y][posicion.x] = "D";
 
     /* Muestra por consola el tablero completo */
 
@@ -56,9 +50,5 @@ export default class Tablero{
         }
     }
 
-    esAguaOEsDañado(posicion=new Posicion(0, 0)){
-        if(this.mapa[posicion.y][posicion.x] === 'A' || this.mapa[posicion.y][posicion.x] === 'D'){
-            return true;
-        }
-    }
+    esAguaOEsDañado = (posicion=new Posicion(0, 0)) => (this.mapa[posicion.y][posicion.x] === 'A' || this.mapa[posicion.y][posicion.x] === 'D');
 }
