@@ -43,16 +43,6 @@ export default class Jugador{
         }
     }
 
-    /* Pide por consola al jugador la posición x e y para luego devolver un objeto Posicion con ambos valores. */
-
-    posicionADisparar (){
-        prompt(`Turno de ${this.nombre}, ingrese cualquier letra para continuar...`);
-        let x = Number (prompt("Ingrese coordenada x a disparar:"));
-        let y = Number (prompt("Ingrese coordenada y a disparar:"));
-
-        return new Posicion(x,y);
-    }
-
     /* Retorna A si se a disparado a Agua o D si se daño un barco del tablero. */
 
     recibirDisparo (posicion = new Posicion(0,0)){

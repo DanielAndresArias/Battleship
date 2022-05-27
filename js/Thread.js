@@ -1,89 +1,20 @@
 /* ---------------------------- CLASE EN DESARROLLO ------------------------------ */
 
-
+import Jugador from "./Jugador.js";
 import Barco from "./Barco.js";
 import Tablero from "./Tablero.js";
 import Posicion from "./Posicion.js";
 
-export default class Thread{
-    nombre;
-    barcos=[];
+export default class Thread extends Jugador{
     disparosDisponibles=[];
     posicionesADisparar=[];
     posicionInicial=null;
     posicionAnterior=null;
     respuestaEnemigo="";
-    tablero = new Tablero();
-    tableroEnemigo = new Tablero();
 
     constructor(nombre=""){
-        this.nombre = nombre;
+        super(nombre);
         this.cargarDisparosDisponibles();
-    }
-
-    cargarDisparosDisponibles(){
-        for(let i=0; i<100; i++){
-            this.disparosDisponibles[i] = i;
-        }
-    }
-
-    /* Recibe por parámetros las posiciones en donde se va a ubicar el barco. 
-    Las guarda en cada objeto barco y las agrega al arreglo barcos. */
-
-    crearBarco(posIni = new Posicion (0,0), posFin = new Posicion (9,9)){
-        if(posIni.x === posFin.x){
-            const b = new Barco(Math.abs(posFin.y-posIni.y));
-            b.establecerPosiciones(posIni, posFin);
-            this.barcos.push(b);
-        }
-        else if(posIni.y === posFin.y){
-            const b = new Barco(Math.abs(posFin.x-posIni.x));
-            b.establecerPosiciones(posIni, posFin);
-            this.barcos.push(b);
-        }
-    }
-
-    /* Recibe por parámetros las posiciones en donde se va a ubicar el barco.
-    Ubica el barco en el tablero y llama al método crearBarco. */
-
-    ponerBarco (posIni = new Posicion (0,0), posFin = new Posicion (9,9)){
-        this.crearBarco(posIni, posFin);
-        const p = this.barcos[this.barcos.length-1].posiciones;
-        for(let i=0; i<p.length; i++){
-            this.tablero.marcarBarco(p[i]);
-        }
-    }
-
-    /* Retorna A si se ha disparado a Agua o D si se daño un barco del tablero. */
-
-    recibirDisparo (posicion = new Posicion(0,0)){
-        if(this.tablero.mapa[posicion.x][posicion.y] === "X"){
-            return "A";
-        }
-        else if(this.tablero.mapa[posicion.x][posicion.y] === "B"){
-            for (let i=0; i<this.barcos.length; i++){
-                if (this.barcos[i].seEncuentra(posicion)){
-                    this.barcos[i].incrementarDisparos();
-                    if (this.barcos[i].estado === "Hundido"){
-                        this.barcos.splice(i,1);
-                        return "H";
-                    }
-                }
-            }
-            return "D";
-        }
-    }
-
-    /* Recibe por parámetros la posición y respuesta del enemigo al disparo efectuado.
-    Marca en el tableroEnemigo la respuesta recibida. */
-
-    marcarTableroEnemigo (posicion = new Posicion(0,0), tipo = ""){
-        if (tipo == "A"){
-            this.tableroEnemigo.marcarAgua(posicion);
-        }
-        else if (tipo == "D"){
-            this.tableroEnemigo.marcarDañado(posicion);
-        }
     }
 
     disparar(){
@@ -102,13 +33,13 @@ export default class Thread{
     recibirRespuestaEnemigo(tipo=""){
         this.respuestaEnemigo = tipo;
         
-        if(this.respuestaEnemigo === "A"){
+        if(this.fueAgua()){
             if(this.posicionAnterior != null && this.posicionesADisparar.length === 0){
                 this.descartarPosicionesADisparar();
                 this.proximaPosicionADisparar();
             }
         }
-        else if(this.respuestaEnemigo === "D"){
+        else if(this.fueDañado()){
             if(this.posicionAnterior === null){
                 this.proximasPosicionesADisparar();
             }
@@ -117,7 +48,7 @@ export default class Thread{
                 this.proximaPosicionADisparar();
             }
         }
-        else if(this.respuestaEnemigo === "H"){
+        else if(this.fueHundido()){
             this.posicionesADisparar.splice(0, this.posicionesADisparar.length);
             this.posicionAnterior = null;
             this.posicionInicial = null;
@@ -137,99 +68,102 @@ export default class Thread{
         const posX = this.posicionInicial.x;
         const posY = this.posicionInicial.y;
 
-        if(posX > 0){
-            if(this.disparosDisponibles.includes(posY*10 + posX-1))
-            this.posicionesADisparar.push(new Posicion(posY, posX-1));
-        }
-        if(posY > 0){
-            if(this.disparosDisponibles.includes((posY-1)*10 + posX))
-            this.posicionesADisparar.push(new Posicion(posY-1, posX));
-        }
-        if(posX < 9){
-            if(this.disparosDisponibles.includes(posY*10 + posX+1))
-            this.posicionesADisparar.push(new Posicion(posY, posX+1));
-        }
-        if(posY < 9){
-            if(this.disparosDisponibles.includes((posY+1)*10 + posX))
-            this.posicionesADisparar.push(new Posicion(posY+1, posX));
-        }
+        (posX > 0) && (this.disparosDisponibles.includes(posY*10 + posX-1) && this.posicionesADisparar.push(new Posicion(posY, posX-1)));
+        
+        (posY > 0) && (this.disparosDisponibles.includes((posY-1)*10 + posX) && this.posicionesADisparar.push(new Posicion(posY-1, posX)));
+        
+        (posX < 9) && (this.disparosDisponibles.includes(posY*10 + posX+1) && this.posicionesADisparar.push(new Posicion(posY, posX+1)));
+        
+        (posY < 9) && (this.disparosDisponibles.includes((posY+1)*10 + posX) && this.posicionesADisparar.push(new Posicion(posY+1, posX)));
+        
     }
 
     proximaPosicionADisparar(){
-        if(this.respuestaEnemigo === "D"){
-            if((this.posicionAnterior.x != 9 || this.posicionAnterior.x != 0 || this.posicionAnterior.y != 9 || this.posicionAnterior.y != 0)){
-                if(this.posicionInicial.x === this.posicionAnterior.x){
-                    if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
-                        this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y+1, this.posicionAnterior.x));
-                    }
-                    else{
-                        this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y-1, this.posicionAnterior.x));
-                    }
-                }
-                else{
-                    if((this.posicionInicial.x - this.posicionAnterior.x) < 0){
-                        this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x+1));
-                    }
-                    else{
-                        this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x-1));
-                    }
-                }
+        if(this.fueDañado()){
+            if(this.fueraDelLimite()){
+                this.mantenerDireccion();
             }
             else{
-                if(this.posicionInicial.x === this.posicionAnterior.x){
-                    if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
-                        this.posicionesADisparar.push(new Posicion(this.posicionInicial.y-1, this.posicionInicial.x));
-                    }
-                    else{
-                        this.posicionesADisparar.push(new Posicion(this.posicionInicial.y+1, this.posicionInicial.x))
-                    }
-                }
-                else{
-                    if((this.posicionInicial.x - this.posicionAnterior.x) < 0){
-                        this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x-1))
-                    }
-                    else{
-                        this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x+1))
-                    }
-                }
+                this.cambiarDireccion();
             }
         }
-        else if(this.respuestaEnemigo === "A"){
-            if(this.posicionInicial.x === this.posicionAnterior.x){
-                if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
-                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y-1, this.posicionInicial.x));
-                }
-                else{
-                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y+1, this.posicionInicial.x))
-                }
-            }
-            else{
-                if((this.posicionInicial.x - this.posicionAnterior.x) < 0){
-                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x-1))
-                }
-                else{
-                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x+1))
-                }
-            }
+        else if(this.fueAgua()){
+            this.cambiarDireccion();
         }
-    
 
-        if(this.tableroEnemigo.mapa[this.posicionesADisparar[0].y][this.posicionesADisparar[0].x] === "A"){
-            if(this.posicionInicial.x === this.posicionAnterior.x){
-                if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
-                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y-1, this.posicionInicial.x));
-                }
-                else{
-                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y+1, this.posicionInicial.x))
-                }
+        /* if(this.tableroEnemigo.mapa[this.posicionesADisparar[0].y][this.posicionesADisparar[0].x] === "A"){
+            this.cambiarDireccion();
+        } */
+    }
+
+    fueDañado(){
+        return (this.respuestaEnemigo === "D");
+    }
+
+    fueAgua(){
+        return (this.respuestaEnemigo === "A");
+    }
+
+    fueHundido(){
+        return (this.respuestaEnemigo === "H");
+    }
+
+    fueraDelLimite(){
+        if(this.posicionInicial.x === this.posicionAnterior.x){
+            if(this.posicionAnterior.y !== 9){
+                return true;
             }
             else{
-                if((this.posicionInicial.x - this.posicionAnterior.x) < 0){
-                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x-1))
-                }
-                else{
-                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x+1))
-                }
+                return false;
+            }
+        }
+        else{
+            if(this.posicionAnterior.x !== 9){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
+    mantenerDireccion(){
+        if(this.posicionInicial.x === this.posicionAnterior.x){
+            if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
+                this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y+1, this.posicionAnterior.x));
+            }
+            else{
+                this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y-1, this.posicionAnterior.x));
+            }
+        }
+        else{
+            if((this.posicionInicial.x - this.posicionAnterior.x) < 0){
+                this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x+1));
+            }
+            else{
+                this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x-1));
+            }
+        }
+        if(this.tableroEnemigo.mapa[this.posicionesADisparar[0].y][this.posicionesADisparar[0].x] === "A"){
+            this.cambiarDireccion();
+        }
+    }
+
+    cambiarDireccion(){
+        if(this.posicionInicial.x === this.posicionAnterior.x){
+            if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
+                this.posicionesADisparar.push(new Posicion(this.posicionInicial.y-1, this.posicionInicial.x));
+            }
+            else{
+                this.posicionesADisparar.push(new Posicion(this.posicionInicial.y+1, this.posicionInicial.x))
+            }
+        }
+        else{
+            if((this.posicionInicial.x - this.posicionAnterior.x) < 0){
+                this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x-1))
+            }
+            else{
+                this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x+1))
             }
         }
     }
@@ -238,7 +172,9 @@ export default class Thread{
         this.posicionesADisparar.splice(0, this.posicionesADisparar.length);
     }
 
-    getRandomInt(min=0, max=0) {
-        return Math.floor(Math.random() * (max - min)) + min;
+    cargarDisparosDisponibles(){
+        for(let i=0; i<100; i++){
+            this.disparosDisponibles[i] = i;
+        }
     }
 }

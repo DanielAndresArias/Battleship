@@ -298,7 +298,8 @@ function asignarNombre(){
 function turnoPruebaThread(){
     let pos = thread.disparar();
     let tipo = jugador1.recibirDisparo(pos);
-
+    console.log(thread.posicionInicial);
+    console.log(thread.posicionAnterior);
         thread.recibirRespuestaEnemigo(tipo);
         thread.marcarTableroEnemigo(pos, tipo);
         pintarCasilleroPropio(pos, tipo);
