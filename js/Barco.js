@@ -29,6 +29,9 @@ export default class Barco{
             case 4:
                 this.tipo = "Destructor";
                 break;
+            case 5:
+                this.tipo = "Portaaviones";
+                break;
         }
     }
 

@@ -156,37 +156,51 @@ export default class Thread{
     }
 
     proximaPosicionADisparar(){
-        if(this.respuestaEnemigo === "D" && (this.posicionAnterior.x != 9 || this.posicionAnterior.x != 0 || this.posicionAnterior.y != 9 || this.posicionAnterior.y != 0)){
-            if(this.posicionInicial.x === this.posicionAnterior.x){
-                if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
-                    this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y+1, this.posicionAnterior.x));
-                
+        if(this.respuestaEnemigo === "D"){
+            if((this.posicionAnterior.x != 9 || this.posicionAnterior.x != 0 || this.posicionAnterior.y != 9 || this.posicionAnterior.y != 0)){
+                if(this.posicionInicial.x === this.posicionAnterior.x){
+                    if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
+                        this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y+1, this.posicionAnterior.x));
+                    }
+                    else{
+                        this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y-1, this.posicionAnterior.x));
+                    }
                 }
                 else{
-                    this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y-1, this.posicionAnterior.x));
-                
+                    if((this.posicionInicial.x - this.posicionAnterior.x) < 0){
+                        this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x+1));
+                    }
+                    else{
+                        this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x-1));
+                    }
                 }
             }
             else{
-                if((this.posicionInicial.x - this.posicionAnterior.x) < 0){
-                    this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x+1));
-                
+                if(this.posicionInicial.x === this.posicionAnterior.x){
+                    if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
+                        this.posicionesADisparar.push(new Posicion(this.posicionInicial.y-1, this.posicionInicial.x));
+                    }
+                    else{
+                        this.posicionesADisparar.push(new Posicion(this.posicionInicial.y+1, this.posicionInicial.x))
+                    }
                 }
                 else{
-                    this.posicionesADisparar.push(new Posicion(this.posicionAnterior.y, this.posicionAnterior.x-1));
-                
+                    if((this.posicionInicial.x - this.posicionAnterior.x) < 0){
+                        this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x-1))
+                    }
+                    else{
+                        this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x+1))
+                    }
                 }
             }
         }
-        else if(this.respuestaEnemigo === "A" || this.posicionAnterior.x === 9 || this.posicionAnterior.x === 0 || this.posicionAnterior.y === 9 || this.posicionAnterior.y === 0){
+        else if(this.respuestaEnemigo === "A"){
             if(this.posicionInicial.x === this.posicionAnterior.x){
                 if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
                     this.posicionesADisparar.push(new Posicion(this.posicionInicial.y-1, this.posicionInicial.x));
-                
                 }
                 else{
                     this.posicionesADisparar.push(new Posicion(this.posicionInicial.y+1, this.posicionInicial.x))
-                
                 }
             }
             else{
@@ -195,7 +209,26 @@ export default class Thread{
                 }
                 else{
                     this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x+1))
-                
+                }
+            }
+        }
+    
+
+        if(this.tableroEnemigo.mapa[this.posicionesADisparar[0].y][this.posicionesADisparar[0].x] === "A"){
+            if(this.posicionInicial.x === this.posicionAnterior.x){
+                if((this.posicionInicial.y - this.posicionAnterior.y) < 0){
+                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y-1, this.posicionInicial.x));
+                }
+                else{
+                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y+1, this.posicionInicial.x))
+                }
+            }
+            else{
+                if((this.posicionInicial.x - this.posicionAnterior.x) < 0){
+                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x-1))
+                }
+                else{
+                    this.posicionesADisparar.push(new Posicion(this.posicionInicial.y, this.posicionInicial.x+1))
                 }
             }
         }

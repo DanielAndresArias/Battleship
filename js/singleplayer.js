@@ -11,23 +11,24 @@ let casillerosEnemigos = document.querySelectorAll (".map__Enemy div div");
 let casillerosPropios = document.querySelectorAll (".map div div");
 let mapasJugador = [];
 let mapasThread = [];
-crearMapasJugador();
+//crearMapasJugador();
 crearMapasThread();
 
 /* Crea un jugador con un mapa aleatorio. */
 
-const jugador1 = mapasJugador[getRandomInt(0, 5)];
+const jugador1 = new Jugador(localStorage.getItem("actualPlayer"));
+jugador1.llenarTablero();
 const thread = mapasThread[getRandomInt(0, 5)];
 asignarNombre();
 
 
-Swal.fire({
+/* Swal.fire({
     title: 'Barcos',
     text: "\n1) Un acorazado de un casillero de largo\n2) Un crucero de dos casilleros de largo\n3) Un submarino de tres casilleros de largo\n4) Un destructor de cuatro casilleros de largo",
     confirmButtonText: 'Ok',
     background: "#000",
     color: "#fff",
-});
+}); */
 
 pintarMapaPropio();
 
@@ -172,7 +173,7 @@ function pintarCasilleroPropio(p = new Posicion(0, 0), tipo=""){
     const casilleroMarcado = document.createElement("div");
     const splashAgua = new Audio ("../assets/sounds/splash-water.mp3");
     const explosion = new Audio ("../assets/sounds/explosion.mp3");
-
+    console.log(casillerosPropios[p.y*10+p.x]);
     casillerosPropios[p.y*10+p.x].appendChild(casilleroMarcado);
 
 
@@ -298,7 +299,6 @@ function turnoPruebaThread(){
     let pos = thread.disparar();
     let tipo = jugador1.recibirDisparo(pos);
 
-    //setTimeout(() => {
         thread.recibirRespuestaEnemigo(tipo);
         thread.marcarTableroEnemigo(pos, tipo);
         pintarCasilleroPropio(pos, tipo);
@@ -306,7 +306,7 @@ function turnoPruebaThread(){
         if(jugador1.barcos.length === 0){
             const actualPlayer = localStorage.getItem("actualPlayer");
             const score = JSON.parse(localStorage.getItem(actualPlayer));
-            score["defeats"] =Number(score["defeats"]) + 1;
+            /* score["defeats"] =Number(score["defeats"]) + 1;
             localStorage.setItem(actualPlayer, JSON.stringify(score));
             Toastify({
                 text: `Defeat!`,
@@ -321,7 +321,6 @@ function turnoPruebaThread(){
                     textaling: 'center'
                 }
             }).showToast();
-            setTimeout(() => {location.href="./menu.html"}, 2001);
+            setTimeout(() => {location.href="./menu.html"}, 2001); */
         }
-    //}, 1);
 }
